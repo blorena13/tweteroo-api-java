@@ -34,13 +34,13 @@ public class TweetController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createTweet(@RequestBody @Valid TweetDTO body){
-        Optional<TweetModel> tweet = TweetService.save(body);
+    public ResponseEntity<TweetModel> createTweet(@RequestBody @Valid TweetDTO body){
+        Optional<TweetModel> tweet = tweetService.save(body);
 
         if(!tweet.isPresent()){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(tweets);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tweet.get());
     }
     
 }
